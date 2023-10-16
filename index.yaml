@@ -286,8 +286,8 @@ info:
     ```
     **Note:** Use the URL from the response to redirect the customer to the bank's page where they will enter their details.
 
-    # Query transaction  
-    If you have already created a transaction via REST API, you can query it as follows.
+    # Confirm transaction  
+    If you have already created a transaction via REST API, you can confirm it as follows.
     - You should query the following Endpoint, in which you append the **ID of the previously created transaction** at the end of the path. Similar to the previous step, you should add the **public token** of your development environment in the **“Authorization”** to make the query as shown below:
 
      ```javascript
