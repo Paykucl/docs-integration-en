@@ -170,7 +170,7 @@ info:
           <td style="text-align: right">
             <p class="psmall"><strong>"email"<strong></p>
           </td>
-          <td class="Description">User's email .</td>
+          <td class="Description">User's email.</td>
         </tr>
         <tr>
           <td style="text-align: right">
@@ -304,6 +304,219 @@ info:
     }
     request();
     ```
+    
+    # Payout 
+    It allows you to generate banking transactions from your **Payku** virtual wallet. This method enables you to create a payment order to a third party using the funds from your **Payku** virtual wallet. To do this, you must follow the steps below:
+    - Create a variable by setting the parameters for the API request as shown below:
+
+    ```javascript
+      let data = {
+        "email": "johndoe@example.com",
+        "phone": "123456789",
+        "subject": "PayOut 133222",
+        "currency": "CLP",
+        "order": 133222,
+        "amount":  1000,
+        "accountbank_name": "Jhon Doe",
+        "accountbank_rut": "111111111",
+        "accountbank_sbif": "0001",
+        "accountbank_type": "1",
+        "accountbank_num": "12312312312",
+        "url_notify": "https://www.youwebsite.com/urlnotify?orderClient=98745",
+        "additional_parameters":
+          {
+          "parameters1": "keyValue",
+          "parameters2": "keyValue",
+          "order_ext": "fff-777"
+          }
+      };
+      request(data);
+    ```
+    ### Parameter descriptions:
+    <div class="content-parametros">
+    <table>
+      <tbody>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"email"<strong></p>
+          </td>
+          <td class="Description">User's email.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"Phone"<strong></p>
+          </td>
+          <td class="Description">User's phone number.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"subject"<strong></p>
+          </td>
+          <td class="Description">Order description.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"currency"<strong></p>
+          </td>
+          <td class="Description">Currency type (ISO format).</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"order"<strong></p>
+          </td>
+          <td class="Description">Merchant order.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"amount"<strong></p>
+          </td>
+          <td class="Description">Order amount.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"accountbank_name"<strong></p>
+          </td>
+          <td class="Description">Account holder's name.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"accountbank_rut"<strong></p>
+          </td>
+          <td class="Description">Identification document of the account holder in Chile Format: 111111111.</td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"accountbank_sbif"<strong></p>
+          </td>
+          <td class="Description">Bank code to which the bank account belongs.
+              <br>
+              0001 Banco de Chile
+              <br>
+              0009 Banco Internacional
+              <br>
+              0012 Banco Estado
+              <br>
+              0014 Scotiabank Chile
+              <br>
+              0016 Banco de crédito e inversiones (BCI)
+              <br>
+              0028 Banco Bice
+              <br>
+              0037 Banco Santander Chile
+              <br>
+              0039 Itaú Corpbanca
+              <br>
+              0049 Banco Security
+              <br>
+              0051 Banco Falabella
+              <br>
+              0055 Banco Consorcio
+              <br>
+              0053 Banco Ripley
+              <br>
+              0504 Banco Bilbao Vizcaya Argentaria Chile (BBVA)
+              <br>
+              0672 Coopeuch
+              <br>
+              729 Caja los Andes
+              <br>
+              730 Tenpo
+              <br>
+              732 Los Andes
+               <br>
+             875 Mercado Pago
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right">
+          <p class="psmall"><strong>"accountbank_type"<strong></p>
+        </td>
+        <td class="Description">Account type.
+        <br>
+          1 Checking 
+          <br>
+          2 Vista/RUT account
+          <br>
+          3 Savings      
+        </td>
+      </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"accountbank_num"<strong></p>
+          </td>
+          <td class="Description">Customer's account number.
+          <br>
+          <strong>For Banco Estado (SBIF 0012), the maximum character limit is 12. This bank is the most common in Chile, so it's a good idea to add a validation for a maximum of 12 digits. This prevents users from entering their debit card number. For other banks, it can have more than 12 characters since banks are not standardized in their account number format.</strong>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"urlnotify"<strong></p>
+          </td>
+          <td class="Description">Callback URL of the merchant where Payku will notify the payment./td>
+        </tr>
+        <tr>
+          <td style="text-align: right">
+            <p class="psmall"><strong>"additional_parameters"<strong></p>
+          </td>
+          <td class="Description">Additional customer parameters (optional).</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    - Create a function with a fetch request querying the API Endpoint. In **"sign"** you must place the signature that you have already created and in **“Authorization”** you must place your public token described above.
+     
+     ```javascript
+      const request = async (data) => {
+        const response = await fetch('https://BASE_URL/api/walet/payout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Sign': 'SHA256-REQUEST-PATH-VALUE-TOKEN-PRIVADO',
+            'Authorization': 'Bearer TOKEN-PUBLICO'
+          },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result)
+      }
+    ```
+
+    **Note:** After making a payment to third parties, Payku will automatically respond to the endpoint entered in **urlnotify** with the result of the operation.</br>
+      <br>
+      **Example Approved:**<br>
+          {<br>
+          "id": "morexxzxxx",
+          <br>
+          "identifier_payout": "morexxzxxx",
+          <br>
+          "order": "367734544",
+          <br>
+          "status" : "success",
+          <br>
+          "update_at" : "2023-08-24 12:29:35"
+          <br>
+          }
+          <br>
+      **Example Rejected:** <br>
+          { <br>
+          "id": "morexzxxxx", <br>
+          "identifier_payout": "morexzxxxx", <br>
+          "order": "367734544", <br>
+          "status" : "banking_error", <br>
+          "update_at" : "2023-08-24 12:29:35" <br>
+          }<br>
+
+      - Once the transaction is created, it will display the following response: 
+      ```javascript
+      {
+        "status": "success",
+        "identifier_wallet": "wa39dba99caa4cc28d",
+        "identifier_payout": "mor963fc9d2e62dd31"
+      }
+      ```
+      
     # Payment result notification to the merchant (callback)  
 
     After the customer completes the payment process at their bank, Payku will automatically respond to the endpoint entered in **"urlnotify"** with the result of the bank transaction.  
