@@ -8,6 +8,7 @@ info:
   description: |
     Select the documentation language: ES | <a href="">EN</a>
     prueba 1 con integracion continua
+    prueba 2 de integracion continua para el deploy
 
     # Integration 
     Payku offers various environments:
