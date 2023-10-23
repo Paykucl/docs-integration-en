@@ -14,4 +14,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to Vercel
-        run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} # Reemplaza con tu comando de despliegue
+        run: npx vercel #--token ${{ secrets.VERCEL_TOKEN }} # Reemplaza con tu comando de despliegue
